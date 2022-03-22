@@ -7,10 +7,10 @@ import javafx.scene.control.TextField;
 
 public class StartWindowController {
 
-    private StartWindowLogic applicationLogic;
+    private StartWindowLogic startWindowLogic;
 
-    public StartWindowController() {
-        applicationLogic = new StartWindowLogic(new UserRepo(), new MessageForUser(), new AppFXClient(this));
+    public void setStartWindowLogic(StartWindowLogic startWindowLogic) {
+        this.startWindowLogic = startWindowLogic;
     }
 
     @FXML
@@ -31,10 +31,10 @@ public class StartWindowController {
     @FXML
     void initialize() {
         login.setOnAction(event -> {
-            applicationLogic.LoginUser(loginBox.getText(), passwordBox.getText());
+            startWindowLogic.LoginUser(loginBox.getText(), passwordBox.getText());
         });
         register.setOnAction(event ->{
-            applicationLogic.RegisterUser(loginBox.getText(), passwordBox.getText());
+            startWindowLogic.RegisterUser(loginBox.getText(), passwordBox.getText());
         });
     }
 
