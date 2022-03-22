@@ -2,12 +2,12 @@ package com.application.application;
 
 import java.util.Objects;
 
-public class ApplicationLogic {
+public class StartWindowLogic {
     private final UserRepo userRepo;
     private final ApplicationClient applicationClient;
     private final MessageForUser messageForUser;
 
-    public ApplicationLogic(UserRepo userRepo, MessageForUser messageForUser, ApplicationClient applicationClient){
+    public StartWindowLogic(UserRepo userRepo, MessageForUser messageForUser, ApplicationClient applicationClient){
         this.userRepo = userRepo;
         this.applicationClient = applicationClient;
         this.messageForUser = messageForUser;
