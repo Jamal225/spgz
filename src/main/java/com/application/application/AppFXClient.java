@@ -1,4 +1,4 @@
-package com.application;
+package com.application.application;
 
 public class AppFXClient implements ApplicationClient{
     @Override

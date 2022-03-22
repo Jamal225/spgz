@@ -1,4 +1,4 @@
-package com.application;
+package com.application.application;
 
 public class MessageForUser {
     public String loginBusy = "Такой пользователь уже есть";

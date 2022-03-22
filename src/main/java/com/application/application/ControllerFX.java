@@ -1,25 +1,26 @@
-package com.application;
+package com.application.application;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
-public class Controller {
+public class ControllerFX {
+
     @FXML
     private Button login;
 
     @FXML
-    private Label loginBox;
+    private TextField loginBox;
 
     @FXML
-    private Label passwordBox;
+    private TextField passwordBox;
 
     @FXML
     private Button register;
 
     @FXML
     void initialize() {
-        login.setOnAction(event ->{
+        login.setOnAction(event -> {
             System.out.print(loginBox.getText());
             System.out.print(passwordBox.getText());
         });

@@ -33,16 +33,16 @@
 -->
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.ApplicationFX">
+<VBox prefHeight="383.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.application.ControllerFX">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -85,12 +85,12 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="login" layoutX="279.0" layoutY="247.0" mnemonicParsing="false" text="Войти" />
-            <Button fx:id="register" layoutX="240.0" layoutY="285.0" mnemonicParsing="false" text="Зарегистрироваться" />
-            <Label fx:id="loginBox" layoutX="290.0" layoutY="129.0" text="Логин" />
-            <Label fx:id="passwordBox" layoutX="286.0" layoutY="159.0" text="Пароль" />
-            <Text layoutX="229.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" />
-            <Text layoutX="225.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" />
+            <Button fx:id="login" layoutX="101.0" layoutY="131.0" mnemonicParsing="false" text="Войти" AnchorPane.leftAnchor="101.0" AnchorPane.topAnchor="131.0" />
+            <Button fx:id="register" layoutX="61.0" layoutY="178.0" mnemonicParsing="false" text="Зарегистрироваться" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="178.0" />
+            <Text layoutX="40.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" wrappingWidth="41.59999999999991" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="42.05078125" />
+            <Text layoutX="33.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" wrappingWidth="56.000012207031205" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="72.0" />
+            <TextField fx:id="loginBox" layoutX="88.0" layoutY="37.0" prefHeight="26.0" prefWidth="127.0" text="login" />
+            <TextField fx:id="passwordBox" layoutX="88.0" layoutY="67.0" prefHeight="26.0" prefWidth="127.0" text="password" />
       </children>
     </AnchorPane>
   </children>

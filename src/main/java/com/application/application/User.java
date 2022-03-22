@@ -1,4 +1,6 @@
-package com.application;
+package com.application.application;
+
+import java.io.IOException;
 
 public class User {
 
