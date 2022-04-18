@@ -1,70 +1,71 @@
 import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.AudioDevice;
-import javazoom.jl.player.JavaSoundAudioDevice;
-import javazoom.jl.player.advanced.AdvancedPlayer;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
+import javazoom.jl.player.Player;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-public class MP3Player{
-    private AdvancedPlayer advancedPlayer;
+public class MP3Player implements SoundPlayer {
+    private Player player;
+    private int songTotalLength;
+    private int pauseLocation;
+    private BufferedInputStream bufferedInputStream;
+    private FileInputStream fileInputStream;
+    private String pathToFile;
     private Thread threadPlayer;
-    private int pausedOnFrame = 0;
-    private String file;
-    private AudioDevice audioDevice;
 
-    public void play(String file) throws IOException, JavaLayerException {
-        this.file = file;
-        audioDevice = new JavaSoundAudioDevice();
-        FileInputStream fis = new FileInputStream(file);
-        advancedPlayer = new AdvancedPlayer(fis, audioDevice);
-        advancedPlayer.setPlayBackListener(new PlaybackListener() {
-            @Override
-            public void playbackFinished(PlaybackEvent event) {
-                pausedOnFrame = audioDevice.getPosition();
-            }
-        });
-        threadPlayer = new Thread(new Runnable() {
-            @Override
-            public void run() {
+    public void play(String pathToFile) {
+        try {
+            this.pathToFile = pathToFile;
+            fileInputStream = new FileInputStream(pathToFile);
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
+            player = new Player(bufferedInputStream);
+            songTotalLength = fileInputStream.available();
+            threadPlayer = new Thread(() -> {
                 try {
-                    advancedPlayer.play();
+                    player.play();
                 } catch (JavaLayerException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-        threadPlayer.start();
+            });
+            threadPlayer.setDaemon(true);
+            threadPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void pause(){
-        advancedPlayer.stop();
+    public void pause() {
+        try {
+            pauseLocation = fileInputStream.available();
+            player.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void resum() throws JavaLayerException, FileNotFoundException {
-        audioDevice = new JavaSoundAudioDevice();
-        FileInputStream fis = new FileInputStream(file);
-        advancedPlayer = new AdvancedPlayer(fis, audioDevice);
-        pausedOnFrame = pausedOnFrame / 25;
-        advancedPlayer.setPlayBackListener(new PlaybackListener() {
-            @Override
-            public void playbackFinished(PlaybackEvent event) {
-                pausedOnFrame = audioDevice.getPosition();
-            }
-        });
-        threadPlayer = new Thread(new Runnable() {
-            @Override
-            public void run() {
+    public void resume() {
+        try {
+            fileInputStream = new FileInputStream(pathToFile);
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
+            bufferedInputStream.skip(songTotalLength - pauseLocation);
+            player = new Player(bufferedInputStream);
+            threadPlayer = new Thread(() -> {
                 try {
-                    advancedPlayer.play(pausedOnFrame, Integer.MAX_VALUE);
+                    player.play(Integer.MAX_VALUE);
                 } catch (JavaLayerException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-        threadPlayer.start();
+            });
+            threadPlayer.setDaemon(true);
+            threadPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stop() {
+        player.close();
+        songTotalLength = 0;
+        pauseLocation = 0;
     }
 }
