@@ -12,7 +12,7 @@ public class MP3Player implements SoundPlayer {
     private FileInputStream fileInputStream;
     private String pathToFile;
     private Thread threadPlayer;
-
+    private String lastPressButton;
     public void play(String pathToFile) {
         try {
             this.pathToFile = pathToFile;
@@ -29,6 +29,7 @@ public class MP3Player implements SoundPlayer {
             });
             threadPlayer.setDaemon(true);
             threadPlayer.start();
+            lastPressButton = "Play";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +39,7 @@ public class MP3Player implements SoundPlayer {
         try {
             pauseLocation = fileInputStream.available();
             player.close();
+            lastPressButton = "Pause";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +60,7 @@ public class MP3Player implements SoundPlayer {
             });
             threadPlayer.setDaemon(true);
             threadPlayer.start();
+            lastPressButton = "Resume";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,5 +70,10 @@ public class MP3Player implements SoundPlayer {
         player.close();
         songTotalLength = 0;
         pauseLocation = 0;
+        lastPressButton = "Stop";
+    }
+
+    public String getLastPressedButton() {
+        return lastPressButton;
     }
 }
