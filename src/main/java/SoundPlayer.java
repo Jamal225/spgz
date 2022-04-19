@@ -6,6 +6,4 @@ public interface SoundPlayer {
     void resume();
 
     void stop();
-
-    String getLastPressedButton();
 }

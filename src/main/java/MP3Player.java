@@ -13,8 +13,12 @@ public class MP3Player implements SoundPlayer {
     private String pathToFile;
     private Thread threadPlayer;
     private String lastPressButton;
+    private PlayerState playerState = PlayerState.STATE_STOP;
     public void play(String pathToFile) {
         try {
+            if (playerState != PlayerState.STATE_PAUSE && playerState != PlayerState.STATE_STOP)
+                return;
+            playerState = PlayerState.STATE_PLAYING;
             this.pathToFile = pathToFile;
             fileInputStream = new FileInputStream(pathToFile);
             bufferedInputStream = new BufferedInputStream(fileInputStream);
@@ -29,7 +33,6 @@ public class MP3Player implements SoundPlayer {
             });
             threadPlayer.setDaemon(true);
             threadPlayer.start();
-            lastPressButton = "Play";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,9 +40,11 @@ public class MP3Player implements SoundPlayer {
 
     public void pause() {
         try {
+            if (playerState != PlayerState.STATE_PLAYING && playerState != PlayerState.STATE_RESUME)
+                return;
+            playerState = PlayerState.STATE_PAUSE;
             pauseLocation = fileInputStream.available();
             player.close();
-            lastPressButton = "Pause";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,6 +52,9 @@ public class MP3Player implements SoundPlayer {
 
     public void resume() {
         try {
+            if (playerState != PlayerState.STATE_PAUSE)
+                return;
+            playerState = PlayerState.STATE_RESUME;
             fileInputStream = new FileInputStream(pathToFile);
             bufferedInputStream = new BufferedInputStream(fileInputStream);
             bufferedInputStream.skip(songTotalLength - pauseLocation);
@@ -60,20 +68,17 @@ public class MP3Player implements SoundPlayer {
             });
             threadPlayer.setDaemon(true);
             threadPlayer.start();
-            lastPressButton = "Resume";
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void stop() {
+        if (playerState == PlayerState.STATE_STOP)
+            return;
         player.close();
         songTotalLength = 0;
         pauseLocation = 0;
-        lastPressButton = "Stop";
-    }
-
-    public String getLastPressedButton() {
-        return lastPressButton;
+        playerState = PlayerState.STATE_STOP;
     }
 }

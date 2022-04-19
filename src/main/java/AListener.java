@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class AListener implements ActionListener {
     SoundPlayer soundPlayer;
@@ -7,20 +8,17 @@ public class AListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        var lastPressedButton = soundPlayer.getLastPressedButton();
-        if (e.getActionCommand()=="Play" && lastPressedButton != "Play"
-                && lastPressedButton != "Resume") {
+
+        if (Objects.equals(e.getActionCommand(), "Play")) {
             soundPlayer.play(musicName);
         }
-        if (e.getActionCommand()=="Stop" && ( lastPressedButton == "Play"
-                || lastPressedButton == "Resume")){
+        if (Objects.equals(e.getActionCommand(), "Stop")){
             soundPlayer.stop();
         }
-        if (e.getActionCommand()=="Pause" && ( lastPressedButton == "Play"
-                || lastPressedButton == "Resume")){
+        if (Objects.equals(e.getActionCommand(), "Pause")){
             soundPlayer.pause();
         }
-        if (e.getActionCommand()=="Resume" && lastPressedButton == "Pause"){
+        if (Objects.equals(e.getActionCommand(), "Resume")){
             soundPlayer.resume();
         }
 
