@@ -12,6 +12,7 @@ public class GUI {
     public JButton button_pause;
     public JButton button_stop;
     public JButton button_open_file;
+    public JSlider volume;
     JTextArea ta;
 
     public GUI(){
@@ -22,6 +23,7 @@ public class GUI {
         button_pause = new JButton("Pause");
         button_stop = new JButton("Stop");
         button_open_file = new JButton("Open File");
+        volume = new JSlider();
         ta = new JTextArea();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 100);
@@ -30,6 +32,7 @@ public class GUI {
         panel.add(button_pause);
         panel.add(button_stop);
         panel.add(button_open_file);
+        panel.add(volume);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.getContentPane().add(BorderLayout.CENTER, ta);
         //frame.setVisible(false);

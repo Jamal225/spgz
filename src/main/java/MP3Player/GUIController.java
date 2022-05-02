@@ -1,54 +1,37 @@
 package MP3Player;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.io.File;
 
 public class GUIController {
     SoundPlayer soundPlayer;
-    String musicName;
-    FileChooser fileChooser;
-    public void control(){
+    MP3Decoder mp3Decoder;
+    File file;
+
+    public void control() {
         GUI gui = new GUI();
+        gui.volume.setMinimum(0);
+        gui.volume.setMaximum(100);
+        gui.volume.addChangeListener(e -> soundPlayer.setVolume(((JSlider)e.getSource()).getValue()));
+        gui.button_pause.addActionListener(e -> soundPlayer.pause());
 
-        gui.button_pause.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                soundPlayer.pause();
-            }
-        });
+        gui.button_resume.addActionListener(e -> soundPlayer.resume());
 
-        gui.button_resume.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                soundPlayer.resume();
-            }
-        });
+        gui.button_stop.addActionListener(e -> soundPlayer.stop());
 
-        gui.button_stop.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                soundPlayer.stop();
-            }
-        });
-
-        gui.button_play.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                soundPlayer.play(musicName);
-            }
-        });
-        gui.button_open_file.addActionListener(new ActionListener() {
-            public void  actionPerformed(ActionEvent e){new FileChooser();}
-
+        gui.button_play.addActionListener(e -> soundPlayer.play(mp3Decoder.mp3ToWav(file)));
+        gui.button_open_file.addActionListener(e -> {
+            var fileChooser = new FileChooser();
+            file = fileChooser.getFile();
         });
         gui.setGUI();
 
     }
 
-    public GUIController(SoundPlayer soundPlayer, String musicName){
+    public GUIController(SoundPlayer soundPlayer) {
         this.soundPlayer = soundPlayer;
-        this.musicName = musicName;
-
-    }
-
-    public void open_file(){
-        new FileChooser();
+        mp3Decoder = new MP3Decoder();
     }
 }
