@@ -1,3 +1,5 @@
+package MP3Player;
+
 public interface SoundPlayer {
     void play(String pathToFile);
 

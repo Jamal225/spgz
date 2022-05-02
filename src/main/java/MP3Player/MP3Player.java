@@ -1,3 +1,5 @@
+package MP3Player;
+
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
