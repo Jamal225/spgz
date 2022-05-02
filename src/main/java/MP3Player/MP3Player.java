@@ -1,6 +1,7 @@
 package MP3Player;
 
 import javax.sound.sampled.*;
+import java.io.File;
 import java.io.IOException;
 
 public class MP3Player implements SoundPlayer {
@@ -8,13 +9,15 @@ public class MP3Player implements SoundPlayer {
     private Long pauseLocation;
     private PlayerState playerState = PlayerState.STATE_STOP;
     private FloatControl volumeControl;
+    private MP3Decoder mp3Decoder = new MP3Decoder();
 
-    public void play(AudioInputStream audioInputStream) {
+    public void play(File file) {
         try {
-            if (playerState != PlayerState.STATE_PAUSE && playerState != PlayerState.STATE_STOP)
+            if (playerState != PlayerState.STATE_PAUSE && playerState != PlayerState.STATE_STOP || file == null)
                 return;
             playerState = PlayerState.STATE_PLAYING;
             player = AudioSystem.getClip();
+            AudioInputStream audioInputStream = mp3Decoder.mp3ToWav(file);
             player.open(audioInputStream);
             player.setFramePosition(0);
             volumeControl = (FloatControl) player.getControl(FloatControl.Type.MASTER_GAIN);

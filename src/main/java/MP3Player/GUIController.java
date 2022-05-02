@@ -21,7 +21,7 @@ public class GUIController {
 
         gui.button_stop.addActionListener(e -> soundPlayer.stop());
 
-        gui.button_play.addActionListener(e -> soundPlayer.play(mp3Decoder.mp3ToWav(file)));
+        gui.button_play.addActionListener(e -> soundPlayer.play(file));
         gui.button_open_file.addActionListener(e -> {
             var fileChooser = new FileChooser();
             file = fileChooser.getFile();

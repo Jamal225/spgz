@@ -1,9 +1,10 @@
 package MP3Player;
 
 import javax.sound.sampled.AudioInputStream;
+import java.io.File;
 
 public interface SoundPlayer {
-    void play(AudioInputStream audioInputStream);
+    void play(File file);
 
     void pause();
 
