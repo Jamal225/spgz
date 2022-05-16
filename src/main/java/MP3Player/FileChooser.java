@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.Serial;
 import java.util.ArrayList;
 
-class  FileChooser extends JFrame {
+class  FileChooser extends JFrame implements IChooser {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,6 @@ class  FileChooser extends JFrame {
             JOptionPane.showMessageDialog(FileChooser.this,
                     fileChooser.getSelectedFile());
             file = fileChooser.getSelectedFile();
-
         }
     }
 

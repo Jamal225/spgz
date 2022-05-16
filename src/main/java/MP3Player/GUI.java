@@ -30,7 +30,7 @@ public class GUI {
         button_stop.addActionListener(e -> controller.stop());
         button_open_file = new JButton("Open File");
         button_open_file.addActionListener(e -> {
-            controller.openFile();
+            controller.openFile(new FileChooser());
             sound_names.setModel(controller.model);
         });
         volume = new JSlider();
