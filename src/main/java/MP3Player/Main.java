@@ -1,7 +1,5 @@
 package MP3Player;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         MP3Player mp3Player = new MP3Player();

@@ -3,6 +3,7 @@ package MP3Player;
 import javax.swing.*;
 import java.io.File;
 import java.io.Serial;
+import java.util.ArrayList;
 
 class  FileChooser extends JFrame {
     @Serial
@@ -21,6 +22,7 @@ class  FileChooser extends JFrame {
             JOptionPane.showMessageDialog(FileChooser.this,
                     fileChooser.getSelectedFile());
             file = fileChooser.getSelectedFile();
+
         }
     }
 

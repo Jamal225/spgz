@@ -3,6 +3,7 @@ package MP3Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GUI {
     JFrame frame ;
@@ -14,6 +15,7 @@ public class GUI {
     public JButton button_open_file;
     public JSlider volume;
     JTextArea ta;
+    public JList<String> sound_names;
 
     public GUI(Controller controller){
         frame = new JFrame("Player");
@@ -27,7 +29,10 @@ public class GUI {
         button_stop = new JButton("Stop");
         button_stop.addActionListener(e -> controller.stop());
         button_open_file = new JButton("Open File");
-        button_open_file.addActionListener(e -> controller.openFile());
+        button_open_file.addActionListener(e -> {
+            controller.openFile();
+            sound_names.setModel(controller.model);
+        });
         volume = new JSlider();
         volume.setMinimum(0);
         volume.setMaximum(100);
@@ -41,13 +46,13 @@ public class GUI {
         panel.add(button_stop);
         panel.add(button_open_file);
         panel.add(volume);
+        sound_names = new JList<>();
+        frame.getContentPane().add(BorderLayout.BEFORE_FIRST_LINE, sound_names);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
-        frame.getContentPane().add(BorderLayout.CENTER, ta);
-        //frame.setVisible(false);
-        controller.play();
     }
 
     public void setGUI(){
         frame.setVisible(true);
     }
 }
+

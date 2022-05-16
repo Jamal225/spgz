@@ -9,7 +9,7 @@ public class Controller {
     SoundPlayer soundPlayer;
     MP3Decoder mp3Decoder;
     File file;
-
+    DefaultListModel<String> model = new DefaultListModel<>();
     public void volumeControl(int volume){
         soundPlayer.setVolume(volume);
     }
@@ -17,6 +17,7 @@ public class Controller {
     public void openFile(){
         var fileChooser = new FileChooser();
         file = fileChooser.getFile();
+        model.addElement(file.getName());
     }
 
     public void play(){
