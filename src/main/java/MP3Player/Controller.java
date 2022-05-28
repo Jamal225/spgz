@@ -1,43 +1,93 @@
 package MP3Player;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Controller {
-    SoundPlayer soundPlayer;
-    MP3Decoder mp3Decoder;
-    File file;
-    DefaultListModel<String> model = new DefaultListModel<>();
+    private SoundPlayer soundPlayer;
+    public DefaultListModel<String> model = new DefaultListModel<>();
+    private final StreamReceiver streamReceiver = new StreamReceiver();
+    private final Map<String, String> playContent = new HashMap<>();
+    private String currentPlay;
 
-    public void volumeControl(int volume){
-        soundPlayer.setVolume(volume);
+    public void volumeControl(int volume) {
+        if (soundPlayer != null)
+            soundPlayer.setVolume(volume);
     }
 
-    public void openFile(IChooser chooser){
-        file = chooser.getFile();
-        model.addElement(file.getName());
+    public void open(String content) {
+        currentPlay = playContent.get(content);
     }
 
-    public void play(){
-        soundPlayer.play(file);
+    public void saveFile() {
+        IChooser chooser = new FileChooser();
+        File file = chooser.getFile();
+        if (file != null) {
+            String fileName = file.getName();
+            model.addElement(fileName);
+            if (!playContent.containsKey(fileName))
+                playContent.put(file.getName(), file.getAbsolutePath());
+            else {
+                playContent.replace(fileName, file.getAbsolutePath());
+            }
+        }
     }
 
-    public void resume(){
-        soundPlayer.resume();
+    private AudioInputStream getAudioInputStream() {
+        AudioInputStream audioInputStream = null;
+        if (currentPlay.contains("://")) {
+            audioInputStream = streamReceiver.open(currentPlay);
+        } else
+            audioInputStream = streamReceiver.open(new File(currentPlay));
+        return audioInputStream;
     }
 
-    public void stop(){
-        soundPlayer.stop();
+    public void saveURL(String url) {
+        if (url != null) {
+            model.addElement(url);
+            playContent.put(url, url);
+        }
     }
 
-    public void pause(){
-        soundPlayer.pause();
+    public void play() {
+        if (soundPlayer != null) {
+            stop();
+        }
+        if (currentPlay == null)
+            return;
+        AudioInputStream audioInputStream = getAudioInputStream();
+        if (audioInputStream == null)
+            return;
+        try {
+            soundPlayer = new MP3Player(audioInputStream);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        try {
+            soundPlayer.play();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
-    public Controller(SoundPlayer soundPlayer) {
-        this.soundPlayer = soundPlayer;
-        mp3Decoder = new MP3Decoder();
+    public void resume() {
+        if (soundPlayer != null)
+            soundPlayer.resume();
+    }
+
+    public void stop() {
+        if (soundPlayer != null) {
+            soundPlayer.stop();
+            soundPlayer = null;
+        }
+    }
+
+    public void pause() {
+        if (soundPlayer != null)
+            soundPlayer.pause();
     }
 }

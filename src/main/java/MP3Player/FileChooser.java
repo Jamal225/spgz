@@ -16,6 +16,7 @@ class  FileChooser extends JFrame implements IChooser {
     public FileChooser() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("MP3 Files", "mp3");
         fileChooser.setFileFilter(filter);
         fileChooser.setDialogTitle("Выбор директории");
