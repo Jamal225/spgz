@@ -13,6 +13,7 @@ public class Controller {
     private final StreamReceiver streamReceiver = new StreamReceiver();
     private final Map<String, String> playContent = new HashMap<>();
     private String currentPlay;
+    private boolean isUrl;
 
     public void volumeControl(int volume) {
         if (soundPlayer != null)
@@ -41,8 +42,11 @@ public class Controller {
         AudioInputStream audioInputStream = null;
         if (currentPlay.contains("://")) {
             audioInputStream = streamReceiver.open(currentPlay);
-        } else
+            isUrl = true;
+        } else {
             audioInputStream = streamReceiver.open(new File(currentPlay));
+            isUrl = false;
+        }
         return audioInputStream;
     }
 
@@ -75,8 +79,11 @@ public class Controller {
     }
 
     public void resume() {
-        if (soundPlayer != null)
-            soundPlayer.resume();
+        if (soundPlayer != null) {
+           if(!isUrl){
+                soundPlayer.resume();
+            }
+        }
     }
 
     public void stop() {
@@ -87,7 +94,10 @@ public class Controller {
     }
 
     public void pause() {
-        if (soundPlayer != null)
-            soundPlayer.pause();
+        if (soundPlayer != null) {
+            if(!isUrl){
+                soundPlayer.pause();
+            }
+        }
     }
 }

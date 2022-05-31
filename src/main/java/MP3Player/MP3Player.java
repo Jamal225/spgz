@@ -9,6 +9,7 @@ public class MP3Player implements SoundPlayer {
     private FloatControl gainControl;
     private Thread writingBuffer;
     private PlayerState playerState = PlayerState.STATE_STOP;
+    private final int buff_size = 4096;
 
     public MP3Player(AudioInputStream audioInputStream) throws LineUnavailableException {
         this.audioInputStream = audioInputStream;
@@ -60,7 +61,7 @@ public class MP3Player implements SoundPlayer {
             sourceDataLine.start();
         }
         writingBuffer = new Thread(() -> {
-            byte[] bytesBuffer = new byte[4096];
+            byte[] bytesBuffer = new byte[buff_size];
             int bytesRead = -1;
             while (!writingBuffer.isInterrupted()) {
                 try {
@@ -92,7 +93,7 @@ public class MP3Player implements SoundPlayer {
             sourceDataLine.start();
         }
         writingBuffer = new Thread(() -> {
-            byte[] bytesBuffer = new byte[4096];
+            byte[] bytesBuffer = new byte[buff_size];
             int bytesRead = -1;
             while (!writingBuffer.isInterrupted()) {
                 try {
