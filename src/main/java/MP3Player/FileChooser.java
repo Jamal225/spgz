@@ -3,19 +3,13 @@ package MP3Player;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.io.Serial;
-import java.util.ArrayList;
 
 class  FileChooser extends JFrame implements IChooser {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    private final JFileChooser fileChooser;
-    File file;
+    private File file;
 
     public FileChooser() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser();
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("MP3 Files", "mp3");
         fileChooser.setFileFilter(filter);

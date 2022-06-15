@@ -72,6 +72,7 @@ public class MP3Player implements SoundPlayer {
                 sourceDataLine.write(bytesBuffer, 0, bytesRead);
             }
         });
+        writingBuffer.setDaemon(true);
         writingBuffer.start();
     }
 
@@ -104,6 +105,7 @@ public class MP3Player implements SoundPlayer {
                 sourceDataLine.write(bytesBuffer, 0, bytesRead);
             }
         });
+        writingBuffer.setDaemon(true);
         writingBuffer.start();
     }
 

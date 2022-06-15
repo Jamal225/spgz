@@ -21,14 +21,12 @@
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.googlecode.soundlibs/mp3spi -->
+        <!-- https://jarcasting.com/artifacts/com.googlecode.soundlibs/mp3spi/ -->
         <dependency>
             <groupId>com.googlecode.soundlibs</groupId>
             <artifactId>mp3spi</artifactId>
             <version>1.9.5.4</version>
         </dependency>
-
-
     </dependencies>
 
     <properties>
