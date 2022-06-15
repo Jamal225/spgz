@@ -11,16 +11,17 @@ public class GUI {
     private final JLabel duration;
     private final JSlider sliderDuration;
 
-    public GUI(Controller controller, Settings settings) {
+    public GUI(Controller controller) {
         frame = new JFrame("Player");
         JPanel panel = new JPanel();
         JButton playButton = new JButton("Play");
         duration = new JLabel();
         sliderDuration = new JSlider();
         sliderDuration.setValue(0);
-        sliderDuration.setMaximum(settings.maxValueDurationSlider);
+        sliderDuration.setMaximum(Settings.maxValueDurationSlider);
         sliderDuration.addChangeListener(e -> controller.changeTrackPosition(sliderDuration.getValue()));
         playButton.addActionListener(e -> {
+            sliderDuration.setValue(0);
             controller.play();
             controller.setVolume(volume.getValue());
             duration.setText(controller.getTrackDuration());
@@ -35,7 +36,7 @@ public class GUI {
         openFileButton.addActionListener(e -> controller.saveFile());
         volume = new JSlider();
         volume.setMinimum(0);
-        volume.setMaximum(100);
+        volume.setMaximum(Settings.maxValueVolumeSlider);
         volume.addChangeListener(e -> controller.setVolume(volume.getValue()));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);

@@ -18,8 +18,12 @@ public class Controller {
     private int currentVolume;
     private String trackDuration;
     private int bytesAvailable;
+    private final SoundPlayerFactory soundPlayerFactory;
+    private final FileChooserFactory fileChooserFactory;
 
-    public Controller(StreamReceiver streamReceiver) {
+    public Controller(StreamReceiver streamReceiver, SoundPlayerFactory soundPlayerFactory, FileChooserFactory fileChooserFactory) {
+        this.fileChooserFactory = fileChooserFactory;
+        this.soundPlayerFactory = soundPlayerFactory;
         this.streamReceiver = streamReceiver;
         soundNames = new DefaultListModel<>();
         playContent = new HashMap<>();
@@ -41,7 +45,7 @@ public class Controller {
     }
 
     public void saveFile() {
-        IChooser chooser = new FileChooser();
+        Chooser chooser = fileChooserFactory.getFileChooser(SourceData.PC_MEMORY);
         File file = chooser.getFile();
         if (file != null) {
             String fileName = file.getName();
@@ -93,7 +97,7 @@ public class Controller {
     }
 
     private String getDuration() {
-        AudioFileFormat fileFormat = null;
+        javax.sound.sampled.AudioFileFormat fileFormat = null;
         try {
             fileFormat = AudioSystem.getAudioFileFormat(new File(currentPlay));
         } catch (UnsupportedAudioFileException | IOException e) {
@@ -114,9 +118,11 @@ public class Controller {
     }
 
     public void changeTrackPosition(int skipDuration) {
-        this.skipBytes = ((long) skipDuration * bytesAvailable) / 100;
-        play();
-        setVolume(currentVolume);
+        if (!isUrl) {
+            this.skipBytes = ((long) skipDuration * bytesAvailable) / Settings.maxValueDurationSlider;
+            play();
+            setVolume(currentVolume);
+        }
     }
 
     public void play() {
@@ -143,7 +149,7 @@ public class Controller {
             e.printStackTrace();
         }
         try {
-            soundPlayer = new MP3Player(audioInputStream);
+            soundPlayer = soundPlayerFactory.createSoundPlayer(AudioFileFormat.MP3, audioInputStream);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
